@@ -289,14 +289,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2141408558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ccbe5e60b33a1f40ad57bf9711efd31, type: 3}
+  m_Script: {fileID: 11500000, guid: 74c7122469b51b84daefbb3287e41ada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tile: {fileID: 8650642525296676946, guid: 171603db58b0d814c91c97b0ea9f99d3, type: 3}
-  SizeX: 10
-  SizeY: 10
-  TileSize: 3.25
-  RoadSize: 0.1
+  RedTriangle: {fileID: 4660587000837238985, guid: 2de54f57562d92e459c485a459091278,
+    type: 3}
+  HowManyTriangle: 10
+  InQueue: []
+  Finished: []
 --- !u!4 &2141408560
 Transform:
   m_ObjectHideFlags: 0
