@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\GameStarter.cs" />
     <Compile Include="Assets\HexagonController.cs" />
+    <Compile Include="Assets\TileContainer.cs" />
     <None Include="Assets\HexTileset\by adythewolf.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Macimus/Anamuria/TileGeneration3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
