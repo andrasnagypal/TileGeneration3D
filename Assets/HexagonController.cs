@@ -4,10 +4,7 @@ using UnityEngine;
 
 namespace Nagand
 {
-    public enum TileDirections
-    {
-        West, NorthWest, NorthEast, East, SouthEast, SouthWest
-    }
+    
     public class HexagonController : MonoBehaviour
     {
         public GameObject prefab;
