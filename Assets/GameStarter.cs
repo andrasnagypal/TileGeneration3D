@@ -9,6 +9,7 @@ namespace Nagand
     {
         [Tooltip("Tile that will be spawned")]
         public GameObject StartingTile;
+        public GameObject SettlementTriangle;
         public int MaxX, MaxY;
         public Vector3[,] TilePositions;
         public GameObject[,] TilesOnBoard;
@@ -18,19 +19,24 @@ namespace Nagand
         public float LeapAmountY = 2.3f;
         [Tooltip("The Amount of tiles that will be spawned")]
         public int HowManyTilesToGenerate;
-        [Tooltip("Min 8 to avoid crash")][Range(8,20)]
+        [Tooltip("Min 8 to avoid crash")]
+        [Range(8, 20)]
         public int BorderValue = 6;
         int TileCounterForSpawning = 0;
         public GameObject ParentObjectForTiles;
         TILE newTile;
         int rndx, rndy;
+        int IDCounterForTriangles = 1;
         List<int[]> TilesSpawned = new List<int[]>();
+        List<ROAD> RoadsOfTheGame = new List<ROAD>();
+        List<PLAINTRIANGLE> PlainTrianglesAtTheBeginning = new List<PLAINTRIANGLE>();
+        List<GameObject> ListOfSettlementPlaces = new List<GameObject>();
 
         void Start()
         {
             TilePositions = new Vector3[MaxX, MaxY];
             TilesOnBoard = new GameObject[MaxX, MaxY];
-            CreatePositions();            
+            CreatePositions();
             AddTiles();
             SetCamera();
             for (int i = 0; i < 3; i++)
@@ -38,21 +44,97 @@ namespace Nagand
                 FillInTheGaps();
             }
             DestroyVector3s();
+            PutDownSettlementTriangles();
         }
+
+        void PutDownSettlementTriangles()
+        {
+            for (int i = 0; i < TilesSpawned.Count; i++)
+            {
+                TILE currentTileAttributes = TilesOnBoard[TilesSpawned[i][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile;
+                for (int j = 0; j < 6; j++)
+                {
+                    if (currentTileAttributes.IDNumberOfSorroundingSettlements[j] < 0)
+                    {
+                        PLAINTRIANGLE newTriangle;
+                        newTriangle.IDNumberForTriangle = IDCounterForTriangles++;
+                        //hogy később ne legyen vonzó simán visszaadni az currentattributes-ot a boardosba
+                        TilesOnBoard[TilesSpawned[i][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[j] = newTriangle.IDNumberForTriangle;
+                        newTriangle.TypeOfTilesForSettlement = new byte[3] { 255, 255, 255 };
+                        newTriangle.TypeOfTilesForSettlement[0] = (byte)currentTileAttributes.TileType;
+                        //ha páros sorú tile akkor ez az ág
+                        if (currentTileAttributes.IndexX % 2 == 0)
+                        {
+                            //West "jelű" triangle kezelése
+                            if (j == (int)TileDirections.West)
+                            {
+                                //West tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i - 2][0], TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i - 2][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i - 2][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
+                                }
+                                //NorthWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i - 1][0], TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i - 1][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i - 1][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx= currentTileAttributes.PositionParameters[0]-1.015f;
+                                float posy = currentTileAttributes.PositionParameters[1] + 0.54f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                            }
+                        }
+                        //ha páratlan soró tile akkor ez az ág
+                        else
+                        {
+
+                        }
+                    }
+
+
+                }
+            }
+
+        }
+
 
         private void DestroyVector3s()
         {
             TilePositions = null;
-            
+
         }
 
         private void FillInTheGaps()
         {
-            for (int i = 0; i < MaxX; i ++)
+            for (int i = 0; i < MaxX; i++)
             {
                 for (int j = 0; j < MaxY; j++)
                 {
-                    if (TilesOnBoard[i,j]!=null)
+                    if (TilesOnBoard[i, j] != null)
                     {
                         //ne fusson ki a tömbből
                         if (i >= BorderValue &&
@@ -61,34 +143,34 @@ namespace Nagand
                             j <= MaxY - BorderValue)
                             //ha páros hexagonon áll
                             if (i % 2 == 0)
-                        {
-                            //West Tile generálás ha nincs + ha 2-vel odébb van tile
-                            if (TilesOnBoard[i - 2, j] == null && (TilesOnBoard[i - 4, j]|| TilesOnBoard[i - 6, j]))
                             {
-                                TileSetter(i - 2, j);
+                                //West Tile generálás ha nincs + ha 2-vel odébb van tile
+                                if (TilesOnBoard[i - 2, j] == null && (TilesOnBoard[i - 4, j] || TilesOnBoard[i - 6, j]))
+                                {
+                                    TileSetter(i - 2, j);
+                                }
+
+                                //East Tile generálás ha nincs + ha 2-vel odébb van tile
+                                if (TilesOnBoard[i + 2, j] == null && (TilesOnBoard[i + 4, j] || TilesOnBoard[i + 6, j]))
+                                {
+                                    TileSetter(i + 2, j);
+                                }
+                            }
+                            else
+                            {
+                                //West Tile generálás ha nincs + ha 2-vel odébb van tile
+                                if (TilesOnBoard[i - 2, j] == null && (TilesOnBoard[i - 4, j] || TilesOnBoard[i - 6, j]))
+                                {
+                                    TileSetter(i - 2, j);
+                                }
+
+                                //East Tile generálás ha nincs + ha 2-vel odébb van tile
+                                if (TilesOnBoard[i + 2, j] == null && (TilesOnBoard[i + 4, j] || TilesOnBoard[i + 6, j]))
+                                {
+                                    TileSetter(i + 2, j);
+                                }
                             }
 
-                            //East Tile generálás ha nincs + ha 2-vel odébb van tile
-                            if (TilesOnBoard[i + 2, j] == null && (TilesOnBoard[i + 4, j] || TilesOnBoard[i + 6, j]))
-                            {
-                                TileSetter(i + 2, j);
-                            }
-                        }
-                        else
-                        {
-                            //West Tile generálás ha nincs + ha 2-vel odébb van tile
-                            if (TilesOnBoard[i - 2, j] == null && (TilesOnBoard[i - 4, j] || TilesOnBoard[i - 6, j]))
-                            {
-                                TileSetter(i - 2, j);
-                            }
-
-                            //East Tile generálás ha nincs + ha 2-vel odébb van tile
-                            if (TilesOnBoard[i + 2, j] == null && (TilesOnBoard[i + 4, j] || TilesOnBoard[i + 6, j]))
-                            {
-                                TileSetter(i + 2, j);
-                            }
-                        }
-                        
                     }
                 }
             }
@@ -96,7 +178,7 @@ namespace Nagand
 
         private void SetCamera()
         {
-            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]]+new Vector3(0,1,-10);
+            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -10);
         }
 
         void CreatePositions()
@@ -141,7 +223,7 @@ namespace Nagand
             newTile = new TILE();
             // tömbből való megkereséshez
 
-            newTile.PositionParameters = new float[] { TilePositions[x,y].x, TilePositions[x, y].y, TilePositions[x, y].z };
+            newTile.PositionParameters = new float[] { TilePositions[x, y].x, TilePositions[x, y].y, TilePositions[x, y].z };
             newTile.RotationParameters = new float[] { 0, 0, 90 };
             newTile.TileType = (int)TypeOfTile.Field;
 
@@ -166,169 +248,169 @@ namespace Nagand
                     int rndForTileNeighbourGeneration = UnityEngine.Random.Range(0, 6);
 
                     //ne fusson ki a tömbből
-                    if (TilesSpawned[rndForList][0]>= BorderValue &&
-                        TilesSpawned[rndForList][1]>= BorderValue &&
-                        TilesSpawned[rndForList][0]<=MaxX- BorderValue &&
+                    if (TilesSpawned[rndForList][0] >= BorderValue &&
+                        TilesSpawned[rndForList][1] >= BorderValue &&
+                        TilesSpawned[rndForList][0] <= MaxX - BorderValue &&
                         TilesSpawned[rndForList][1] <= MaxY - BorderValue)
-                    //páros sorban levő tile kezelése
-                    if (tempTile.IndexX % 2 == 0)
-                        switch (rndForTileNeighbourGeneration)
-                        {
-                            case 0:
-                                {
-                                    //a West szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] - 2,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx,Boardy]==null)
+                        //páros sorban levő tile kezelése
+                        if (tempTile.IndexX % 2 == 0)
+                            switch (rndForTileNeighbourGeneration)
+                            {
+                                case 0:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a West szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] - 2,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 1:
-                                {
-                                    //a NorthWest szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] - 1,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 1:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a NorthWest szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] - 1,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 2:
-                                {
-                                    //a NorthEast szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] + 1,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 2:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a NorthEast szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] + 1,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 3:
-                                {
-                                    //a East szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] + 2,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 3:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a East szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] + 2,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 4:
-                                {
-                                    //a SouthEast szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] + 1,
-                                        Boardy = TilesSpawned[rndForList][1] - 1;
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 4:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a SouthEast szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] + 1,
+                                            Boardy = TilesSpawned[rndForList][1] - 1;
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 5:
-                                {
-                                    //a SouthWest szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] - 1,
-                                        Boardy = TilesSpawned[rndForList][1] - 1;
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 5:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a SouthWest szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] - 1,
+                                            Boardy = TilesSpawned[rndForList][1] - 1;
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
+                                    break;
 
-                        }
-                    //páratlan sorban levő tile kezelése
-                    else
-                        switch (rndForTileNeighbourGeneration)
-                        {
-                            case 0:
-                                {
-                                    //a West szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] - 2,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                            }
+                        //páratlan sorban levő tile kezelése
+                        else
+                            switch (rndForTileNeighbourGeneration)
+                            {
+                                case 0:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a West szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] - 2,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 1:
-                                {
-                                    //a NorthWest szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] - 1,
-                                        Boardy = TilesSpawned[rndForList][1] + 1;
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 1:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a NorthWest szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] - 1,
+                                            Boardy = TilesSpawned[rndForList][1] + 1;
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 2:
-                                {
-                                    //a NorthEast szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] + 1,
-                                        Boardy = TilesSpawned[rndForList][1] + 1;
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 2:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a NorthEast szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] + 1,
+                                            Boardy = TilesSpawned[rndForList][1] + 1;
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 3:
-                                {
-                                    //a East szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] + 2,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 3:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a East szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] + 2,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 4:
-                                {
-                                    //a SouthEast szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] + 1,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 4:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a SouthEast szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] + 1,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                            case 5:
-                                {
-                                    //a SouthWest szomszéd tile indexeinek beállítása
-                                    int Boardx = TilesSpawned[rndForList][0] - 1,
-                                        Boardy = TilesSpawned[rndForList][1];
-                                    if (TilesOnBoard[Boardx, Boardy] == null)
+                                    break;
+                                case 5:
                                     {
-                                        TileSetter(Boardx, Boardy);
-                                        IsTileCreated = true;
+                                        //a SouthWest szomszéd tile indexeinek beállítása
+                                        int Boardx = TilesSpawned[rndForList][0] - 1,
+                                            Boardy = TilesSpawned[rndForList][1];
+                                        if (TilesOnBoard[Boardx, Boardy] == null)
+                                        {
+                                            TileSetter(Boardx, Boardy);
+                                            IsTileCreated = true;
+                                        }
                                     }
-                                }
-                                break;
-                        }
+                                    break;
+                            }
                 }
                 TileCounterForSpawning++;
             }
-            
+
         }
 
         private void FirstTileToCreate()
@@ -337,14 +419,14 @@ namespace Nagand
             {
                 rndx = UnityEngine.Random.Range(5, MaxX - 5);
                 rndy = UnityEngine.Random.Range(5, MaxY - 5);
-                TileSetter(rndx,rndy);
+                TileSetter(rndx, rndy);
                 TilesSpawned.Add(new int[] { rndx, rndy });
                 TileCounterForSpawning++;
             }
         }
-
+    }
     }
 
     
-}
+
 
