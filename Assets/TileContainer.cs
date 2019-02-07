@@ -63,15 +63,14 @@ namespace Nagand
         {
             AttributesOfTheTile.IdForGameObject = "TILE" + x + y;
             AttributesOfTheTile.IndexX = x;
-            AttributesOfTheTile.IndexY = y;
-            Debug.Log(AttributesOfTheTile.IdForGameObject + " " + AttributesOfTheTile.TileType);
+            AttributesOfTheTile.IndexY = y;            
             AttributesOfTheTile.NeighbourTiles = new TILE[6];
             AttributesOfTheTile.SorroundingRoads=new ROAD[6];
-            AttributesOfTheTile.SorroundingSettlements=new UNINHABITEDSETTLEMENT[6];
-            Debug.Log(AttributesOfTheTile.NeighbourTiles[0]);
+            AttributesOfTheTile.SorroundingSettlements=new UNINHABITEDSETTLEMENT[6];            
         transform.Rotate(new Vector3(AttributesOfTheTile.RotationParameters[(int)RotationNames.RotX],
                 AttributesOfTheTile.RotationParameters[(int)RotationNames.RotY],
                 AttributesOfTheTile.RotationParameters[(int)RotationNames.RotZ]));
+            gameObject.name= "TILE" + x + y;
         }
     }
 }

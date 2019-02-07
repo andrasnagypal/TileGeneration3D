@@ -7,13 +7,19 @@ namespace Nagand
 {
     public class GameStarter : MonoBehaviour
     {
+        [Tooltip("Tile that will be spawned")]
         public GameObject StartingTile;
         public int MaxX, MaxY;
         public Vector3[,] TilePositions;
         public GameObject[,] TilesOnBoard;
+        [Tooltip("Left or right leap for tile spawning")]
         public float LeapAmountX = 1.015f;
+        [Tooltip("Up or down leap for tile spawning")]
         public float LeapAmountY = 2.3f;
+        [Tooltip("The Amount of tiles that will be spawned")]
         public int HowManyTilesToGenerate;
+        [Tooltip("Min 8 to avoid crash")][Range(8,20)]
+        public int BorderValue = 6;
         int TileCounterForSpawning = 0;
         public GameObject ParentObjectForTiles;
         TILE newTile;
@@ -24,10 +30,68 @@ namespace Nagand
         {
             TilePositions = new Vector3[MaxX, MaxY];
             TilesOnBoard = new GameObject[MaxX, MaxY];
-            CreatePositions();
-            //CreateTiles();
+            CreatePositions();            
             AddTiles();
             SetCamera();
+            for (int i = 0; i < 3; i++)
+            {
+                FillInTheGaps();
+            }
+            DestroyVector3s();
+        }
+
+        private void DestroyVector3s()
+        {
+            TilePositions = null;
+            
+        }
+
+        private void FillInTheGaps()
+        {
+            for (int i = 0; i < MaxX; i ++)
+            {
+                for (int j = 0; j < MaxY; j++)
+                {
+                    if (TilesOnBoard[i,j]!=null)
+                    {
+                        //ne fusson ki a tömbből
+                        if (i >= BorderValue &&
+                            j >= BorderValue &&
+                            i <= MaxX - BorderValue &&
+                            j <= MaxY - BorderValue)
+                            //ha páros hexagonon áll
+                            if (i % 2 == 0)
+                        {
+                            //West Tile generálás ha nincs + ha 2-vel odébb van tile
+                            if (TilesOnBoard[i - 2, j] == null && (TilesOnBoard[i - 4, j]|| TilesOnBoard[i - 6, j]))
+                            {
+                                TileSetter(i - 2, j);
+                            }
+
+                            //East Tile generálás ha nincs + ha 2-vel odébb van tile
+                            if (TilesOnBoard[i + 2, j] == null && (TilesOnBoard[i + 4, j] || TilesOnBoard[i + 6, j]))
+                            {
+                                TileSetter(i + 2, j);
+                            }
+                        }
+                        else
+                        {
+                            //West Tile generálás ha nincs + ha 2-vel odébb van tile
+                            if (TilesOnBoard[i - 2, j] == null && (TilesOnBoard[i - 4, j] || TilesOnBoard[i - 6, j]))
+                            {
+                                TileSetter(i - 2, j);
+                            }
+
+                            //East Tile generálás ha nincs + ha 2-vel odébb van tile
+                            if (TilesOnBoard[i + 2, j] == null && (TilesOnBoard[i + 4, j] || TilesOnBoard[i + 6, j]))
+                            {
+                                TileSetter(i + 2, j);
+                            }
+                        }
+                        
+                    }
+                }
+            }
         }
 
         private void SetCamera()
@@ -100,6 +164,12 @@ namespace Nagand
                     int rndForList = UnityEngine.Random.Range(0, TilesSpawned.Count);
                     TILE tempTile = TilesOnBoard[TilesSpawned[rndForList][0], TilesSpawned[rndForList][1]].GetComponent<TileContainer>().AttributesOfTheTile;
                     int rndForTileNeighbourGeneration = UnityEngine.Random.Range(0, 6);
+
+                    //ne fusson ki a tömbből
+                    if (TilesSpawned[rndForList][0]>= BorderValue &&
+                        TilesSpawned[rndForList][1]>= BorderValue &&
+                        TilesSpawned[rndForList][0]<=MaxX- BorderValue &&
+                        TilesSpawned[rndForList][1] <= MaxY - BorderValue)
                     //páros sorban levő tile kezelése
                     if (tempTile.IndexX % 2 == 0)
                         switch (rndForTileNeighbourGeneration)
@@ -168,7 +238,7 @@ namespace Nagand
                                 {
                                     //a SouthWest szomszéd tile indexeinek beállítása
                                     int Boardx = TilesSpawned[rndForList][0] - 1,
-                                        Boardy = TilesSpawned[rndForList][1] + 1;
+                                        Boardy = TilesSpawned[rndForList][1] - 1;
                                     if (TilesOnBoard[Boardx, Boardy] == null)
                                     {
                                         TileSetter(Boardx, Boardy);

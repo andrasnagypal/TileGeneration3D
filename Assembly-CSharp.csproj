@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CameraMovement.cs" />
     <Compile Include="Assets\GameStarter.cs" />
     <Compile Include="Assets\HexagonController.cs" />
     <Compile Include="Assets\TileContainer.cs" />
