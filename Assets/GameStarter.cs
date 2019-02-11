@@ -44,7 +44,7 @@ namespace Nagand
                 FillInTheGaps();
             }
             DestroyVector3s();
-           PutDownSettlementTriangles();
+           //PutDownSettlementTriangles();
         }
 
         void PutDownSettlementTriangles()
@@ -225,7 +225,7 @@ namespace Nagand
             // tömbből való megkereséshez
 
             newTile.PositionParameters = new float[] { TilePositions[x, y].x, TilePositions[x, y].y, TilePositions[x, y].z };
-            newTile.RotationParameters = new float[] { 0, 0, 0 };
+            newTile.RotationParameters = new float[] { -90, 0, 0 };
             newTile.TileType = (int)TypeOfTile.Field;
 
             TilesOnBoard[x, y] = Instantiate(StartingTile, TilePositions[x, y], Quaternion.identity);

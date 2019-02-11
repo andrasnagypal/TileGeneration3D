@@ -288,7 +288,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: -0.17364825, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0, y: 1, z: -2}
+  m_LocalPosition: {x: 0, y: 0.686, z: -2.864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02658664f0896b64bba0a237e95df872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingTile: {fileID: 1267069307722205846, guid: 1604bc9854558bb499c0f6bd162f9c62,
+  StartingTile: {fileID: 6507194208182664357, guid: b5cc6369146f4f041b39bf50d8458996,
     type: 3}
   SettlementTriangle: {fileID: 4660587000837238985, guid: 2de54f57562d92e459c485a459091278,
     type: 3}

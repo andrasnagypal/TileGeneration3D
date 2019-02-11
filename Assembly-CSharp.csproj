@@ -66,7 +66,6 @@
     <Compile Include="Assets\RoadsContainer.cs" />
     <Compile Include="Assets\TileContainer.cs" />
     <Compile Include="Assets\TrianglesContainer.cs" />
-    <None Include="Assets\HexTileset\by adythewolf.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Macimus/Anamuria/TileGeneration3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
