@@ -44,7 +44,7 @@ namespace Nagand
                 FillInTheGaps();
             }
             DestroyVector3s();
-            PutDownSettlementTriangles();
+           PutDownSettlementTriangles();
         }
 
         void PutDownSettlementTriangles()
@@ -178,7 +178,7 @@ namespace Nagand
 
         private void SetCamera()
         {
-            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -10);
+            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -2);
         }
 
         void CreatePositions()
@@ -188,14 +188,15 @@ namespace Nagand
             for (int i = 0; i < MaxX; i++)
             {
                 if (i % 2 == 0)
-                    StartPosY = 0;
+                    StartPosY = .26f;
                 else
-                    StartPosY = LeapAmountY / 2;
+                    StartPosY = LeapAmountY / 2 + .26f;
 
                 for (int j = 0; j < MaxY; j++)
                 {
                     TilePositions[i, j] = new Vector3(StartPosX, StartPosY, 0);
                     StartPosY += LeapAmountY;
+                   
                 }
                 StartPosX += LeapAmountX;
             }
@@ -224,7 +225,7 @@ namespace Nagand
             // tömbből való megkereséshez
 
             newTile.PositionParameters = new float[] { TilePositions[x, y].x, TilePositions[x, y].y, TilePositions[x, y].z };
-            newTile.RotationParameters = new float[] { 0, 0, 90 };
+            newTile.RotationParameters = new float[] { 0, 0, 0 };
             newTile.TileType = (int)TypeOfTile.Field;
 
             TilesOnBoard[x, y] = Instantiate(StartingTile, TilePositions[x, y], Quaternion.identity);
