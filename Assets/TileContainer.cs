@@ -41,8 +41,7 @@ namespace Nagand
     }
 
     public struct ROAD
-    {
-        public int[] IndexesOfTiles;
+    {        
         public float[] PositionParameters;
         public float[] RotationParameters;
         public byte LevelOfTheRoad;
@@ -74,6 +73,7 @@ namespace Nagand
                 AttributesOfTheTile.RotationParameters[(int)RotationNames.RotY],
                 AttributesOfTheTile.RotationParameters[(int)RotationNames.RotZ]));
             gameObject.name= "TILE" + x + y;
+            //Debug.Log(AttributesOfTheTile.SorroundingRoads[0].IDNumberForTriangles  ); ez alapján roadokat
         }
     }
 }
