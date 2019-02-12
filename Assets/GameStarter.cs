@@ -160,7 +160,7 @@ namespace Nagand
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]] != null)
                                 {
                                     newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0]+ 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
                                 }
                                 //East tileba bepakolni idjét
                                 if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
@@ -289,16 +289,16 @@ namespace Nagand
                             if (j == (int)TileDirections.SouthWest)
                             {
                                 //SouthWest tileba bepakolni idjét
-                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]] != null)
-                                {
-                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest] = newTriangle.IDNumberForTriangle;
-                                }
-                                //West tileba bepakolni idjét
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1] != null)
                                 {
-                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //West tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] ] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
                                 }
                                 //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
                                 newTriangle.IsHabitable = true;
@@ -337,16 +337,16 @@ namespace Nagand
                             if (j == (int)TileDirections.West)
                             {
                                 //West tileba bepakolni idjét
-                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]] != null)
                                 {
-                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
                                 }
                                 //NorthWest tileba bepakolni idjét
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]] != null)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1] != null)
                                 {
-                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
                                 }
                                 //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
                                 newTriangle.IsHabitable = true;
@@ -380,10 +380,10 @@ namespace Nagand
                             //NorthWest "jelű" triangle kezelése
                             if (j == (int)TileDirections.NorthWest)
                             {
-                                //NortWest tileba bepakolni idjét
+                                //NorthWest tileba bepakolni idjét
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1] != null)
                                 {
-                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0]- 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
                                 }
                                 //NorthEast tileba bepakolni idjét
@@ -428,7 +428,7 @@ namespace Nagand
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1] != null)
                                 {
                                     newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
                                 }
                                 //East tileba bepakolni idjét
                                 if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
@@ -563,10 +563,10 @@ namespace Nagand
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest] = newTriangle.IDNumberForTriangle;
                                 }
                                 //West tileba bepakolni idjét
-                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] - 2] != null)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] ] != null)
                                 {
-                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] - 2].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] - 2].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
                                 }
                                 //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
                                 newTriangle.IsHabitable = true;
