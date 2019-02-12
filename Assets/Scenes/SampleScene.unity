@@ -339,15 +339,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02658664f0896b64bba0a237e95df872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingTile: {fileID: 6507194208182664357, guid: b5cc6369146f4f041b39bf50d8458996,
+  StartingTile: {fileID: 1196552866106138734, guid: b77f4f7910ec7ec45999709596ec7be9,
     type: 3}
-  SettlementTriangle: {fileID: 4660587000837238985, guid: 2de54f57562d92e459c485a459091278,
+  SettlementTriangle: {fileID: 5879945519807924835, guid: 0a5d8401b76a57343bf31e891011dd42,
     type: 3}
   MaxX: 50
   MaxY: 50
   LeapAmountX: 1.015
   LeapAmountY: 3.52
-  HowManyTilesToGenerate: 100
+  HowManyTilesToGenerate: 20
   BorderValue: 8
   ParentObjectForTiles: {fileID: 135844594}
 --- !u!4 &1230575324

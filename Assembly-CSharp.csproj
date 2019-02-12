@@ -65,6 +65,7 @@
     <Compile Include="Assets\HexagonController.cs" />
     <Compile Include="Assets\RoadsContainer.cs" />
     <Compile Include="Assets\TileContainer.cs" />
+    <Compile Include="Assets\TriangleController.cs" />
     <Compile Include="Assets\TrianglesContainer.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Macimus/Anamuria/TileGeneration3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

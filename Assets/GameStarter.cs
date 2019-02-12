@@ -44,7 +44,7 @@ namespace Nagand
                 FillInTheGaps();
             }
             DestroyVector3s();
-           //PutDownSettlementTriangles();
+           PutDownSettlementTriangles();
         }
 
         void PutDownSettlementTriangles()
@@ -69,16 +69,16 @@ namespace Nagand
                             if (j == (int)TileDirections.West)
                             {
                                 //West tileba bepakolni idjét
-                                if (TilesOnBoard[TilesSpawned[i - 2][0], TilesSpawned[i][1]] != null)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]] != null)
                                 {
-                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i - 2][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i - 2][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i ][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i ][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
                                 }
                                 //NorthWest tileba bepakolni idjét
-                                if (TilesOnBoard[TilesSpawned[i - 1][0], TilesSpawned[i][1]] != null)
+                                if (TilesOnBoard[TilesSpawned[i ][0] - 1, TilesSpawned[i][1]] != null)
                                 {
-                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i - 1][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
-                                    TilesOnBoard[TilesSpawned[i - 1][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i ][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i ][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
                                 }
                                 //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
                                 newTriangle.IsHabitable = true;
@@ -90,8 +90,8 @@ namespace Nagand
                                         break;
                                     }
                                 }
-                                float posx= currentTileAttributes.PositionParameters[0]-1.015f;
-                                float posy = currentTileAttributes.PositionParameters[1] + 0.54f;
+                                float posx= currentTileAttributes.PositionParameters[0]-1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] + .59f;
                                 //3 koordináta beállítása
                                 newTriangle.PositionParameters = new float[3] {
                                     posx,
@@ -106,12 +106,497 @@ namespace Nagand
                                     newTriangle.PositionParameters[1],
                                     newTriangle.PositionParameters[2]), Quaternion.identity);
                                 ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //NorthWest "jelű" triangle kezelése
+                            if (j == (int)TileDirections.NorthWest)
+                            {
+                                //NortWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
+                                }
+                                //NorthEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0] ;
+                                float posy = currentTileAttributes.PositionParameters[1] + 1.175f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //NorthEast "jelű" triangle kezelése
+                            if (j == (int)TileDirections.NorthEast)
+                            {
+                                //NortEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0]+ 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //East tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.West] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0]+1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] + .59f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //East "jelű" triangle kezelése
+                            if (j == (int)TileDirections.East)
+                            {
+                                //East tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //SouthEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0]+1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] -.59f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //SouthEast "jelű" triangle kezelése
+                            if (j == (int)TileDirections.SouthEast)
+                            {
+                                //SouthEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.West] = newTriangle.IDNumberForTriangle;
+                                }
+                                //SoutWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] -1, TilesSpawned[i][1] - 1] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0] ;
+                                float posy = currentTileAttributes.PositionParameters[1] -1.175f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //SoutWest "jelű" triangle kezelése
+                            if (j == (int)TileDirections.SouthWest)
+                            {
+                                //SouthWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //West tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0] - 1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] - .59f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
                             }
                         }
                         //ha páratlan soró tile akkor ez az ág
                         else
                         {
-
+                            //West "jelű" triangle kezelése
+                            if (j == (int)TileDirections.West)
+                            {
+                                //West tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
+                                }
+                                //NorthWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0] - 1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] + .59f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //NorthWest "jelű" triangle kezelése
+                            if (j == (int)TileDirections.NorthWest)
+                            {
+                                //NortWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
+                                }
+                                //NorthEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0];
+                                float posy = currentTileAttributes.PositionParameters[1] + 1.175f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //NorthEast "jelű" triangle kezelése
+                            if (j == (int)TileDirections.NorthEast)
+                            {
+                                //NortEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //East tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.West] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0] + 1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] + .59f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //East "jelű" triangle kezelése
+                            if (j == (int)TileDirections.East)
+                            {
+                                //East tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //SouthEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0]+1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] -.59f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //SouthEast "jelű" triangle kezelése
+                            if (j == (int)TileDirections.SouthEast)
+                            {
+                                //SouthEast tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.West] = newTriangle.IDNumberForTriangle;
+                                }
+                                //SoutWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0];
+                                float posy = currentTileAttributes.PositionParameters[1] - 1.175f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
+                            //SoutWest "jelű" triangle kezelése
+                            if (j == (int)TileDirections.SouthWest)
+                            {
+                                //SouthWest tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[1] = (byte)TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest] = newTriangle.IDNumberForTriangle;
+                                }
+                                //West tileba bepakolni idjét
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] - 2] != null)
+                                {
+                                    newTriangle.TypeOfTilesForSettlement[2] = (byte)TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] - 2].GetComponent<TileContainer>().AttributesOfTheTile.TileType;
+                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1] - 2].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[(int)TileDirections.East] = newTriangle.IDNumberForTriangle;
+                                }
+                                //ishabitable beállítása, h később kevesebb mint 3 tile-ú trianglera ne rakjon a game
+                                newTriangle.IsHabitable = true;
+                                for (int k = 0; k < 3; k++)
+                                {
+                                    if (newTriangle.TypeOfTilesForSettlement[k] == 255)
+                                    {
+                                        newTriangle.IsHabitable = false;
+                                        break;
+                                    }
+                                }
+                                float posx = currentTileAttributes.PositionParameters[0] - 1.016f;
+                                float posy = currentTileAttributes.PositionParameters[1] - .59f;
+                                //3 koordináta beállítása
+                                newTriangle.PositionParameters = new float[3] {
+                                    posx,
+                                    posy,
+                                    currentTileAttributes.PositionParameters[2]
+                                };
+                                //forgás beállítása
+                                newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
+                                PlainTrianglesAtTheBeginning.Add(newTriangle);
+                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                    newTriangle.PositionParameters[0],
+                                    newTriangle.PositionParameters[1],
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);
+                                ListOfSettlementPlaces.Add(go);
+                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                go.GetComponent<TriangleController>().SetUp();
+                            }
                         }
                     }
 
@@ -178,7 +663,7 @@ namespace Nagand
 
         private void SetCamera()
         {
-            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -2);
+            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -.8f);
         }
 
         void CreatePositions()
@@ -225,7 +710,7 @@ namespace Nagand
             // tömbből való megkereséshez
 
             newTile.PositionParameters = new float[] { TilePositions[x, y].x, TilePositions[x, y].y, TilePositions[x, y].z };
-            newTile.RotationParameters = new float[] { -90, 0, 0 };
+            newTile.RotationParameters = new float[] { 0, 0, 0 };
             newTile.TileType = (int)TypeOfTile.Field;
 
             TilesOnBoard[x, y] = Instantiate(StartingTile, TilePositions[x, y], Quaternion.identity);
