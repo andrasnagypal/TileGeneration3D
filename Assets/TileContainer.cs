@@ -36,12 +36,13 @@ namespace Nagand
         public int TileType;
         public int IndexX, IndexY; // tömbből való megkereséshez
         public TILE[] NeighbourTiles;
-        public ROAD[] SorroundingRoads;
+        public int[] IDForSorroundingRoads;
         public int[] IDNumberOfSorroundingSettlements;
     }
 
     public struct ROAD
-    {        
+    {
+        public int IDNumberForRoad;
         public float[] PositionParameters;
         public float[] RotationParameters;
         public byte LevelOfTheRoad;
@@ -67,9 +68,14 @@ namespace Nagand
             AttributesOfTheTile.IndexX = x;
             AttributesOfTheTile.IndexY = y;            
             AttributesOfTheTile.NeighbourTiles = new TILE[6];
-            AttributesOfTheTile.SorroundingRoads=new ROAD[6];
-            AttributesOfTheTile.IDNumberOfSorroundingSettlements = new int[6] { -1,-1,-1,-1,-1,-1};            
-        transform.Rotate(new Vector3(AttributesOfTheTile.RotationParameters[(int)RotationNames.RotX],
+            AttributesOfTheTile.IDForSorroundingRoads=new int[6] { -1,-1,-1,-1,-1,-1};
+            AttributesOfTheTile.IDNumberOfSorroundingSettlements = new int[6] { -1,-1,-1,-1,-1,-1};
+            //road generaláshoz
+            for (int i = 0; i < 6; i++)
+            {
+
+            }
+            transform.Rotate(new Vector3(AttributesOfTheTile.RotationParameters[(int)RotationNames.RotX],
                 AttributesOfTheTile.RotationParameters[(int)RotationNames.RotY],
                 AttributesOfTheTile.RotationParameters[(int)RotationNames.RotZ]));
             gameObject.name= "TILE" + x + y;

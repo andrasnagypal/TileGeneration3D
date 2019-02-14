@@ -374,11 +374,11 @@ MonoBehaviour:
   SettlementTriangle: {fileID: 5879945519807924835, guid: 0a5d8401b76a57343bf31e891011dd42,
     type: 3}
   StartingRoad: {fileID: 689770404, guid: 0eff8f57492892b4d9bff45547c95025, type: 3}
-  MaxX: 20
-  MaxY: 20
+  MaxX: 100
+  MaxY: 100
   LeapAmountX: 1.015
   LeapAmountY: 3.52
-  HowManyTilesToGenerate: 27
+  HowManyTilesToGenerate: 8
   BorderValue: 8
   ParentObjectForTiles: {fileID: 135844594}
   ParentObjectForTriangles: {fileID: 550496020}

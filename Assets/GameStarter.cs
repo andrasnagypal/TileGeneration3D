@@ -29,6 +29,7 @@ namespace Nagand
         TILE newTile;
         int rndx, rndy;
         int IDCounterForTriangles = 1;
+        int IDCounterForRoads = 1;
         List<int[]> TilesSpawned = new List<int[]>();
         List<ROAD> RoadsOfTheGame = new List<ROAD>();
         List<PLAINTRIANGLE> PlainTrianglesAtTheBeginning = new List<PLAINTRIANGLE>();
@@ -58,11 +59,12 @@ namespace Nagand
                 TILE currentTileAttributes = TilesOnBoard[TilesSpawned[i][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile;
                 for (int j = 0; j < 6; j++)
                 {
-                    if (currentTileAttributes.SorroundingRoads[j].IDNumberForTriangles==null)
+                    if (currentTileAttributes.IDForSorroundingRoads[j]<0)
                     {
                         ROAD newRoad;
                         newRoad.LevelOfTheRoad = 6;
                         newRoad.IDNumberForTriangles = new int[2] { 0, 0 };
+                        newRoad.IDNumberForRoad = IDCounterForRoads++;
                         //páros indexű tilek kezelése
                         if (i % 2 == 0)
                         {    //West road inicializálása
@@ -78,13 +80,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
                                 //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]])
-                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.East] = newRoad;
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] ==0)
+                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
                             }
                             //NorthWest road inicializálása
                             if (j == (byte)TileDirections.NorthWest)
@@ -99,13 +102,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]])
-                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.SouthEast] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //northwest tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
                             }
                             //NorthEast road inicializálása
                             if (j == (byte)TileDirections.NorthEast)
@@ -120,13 +124,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]])
-                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.SouthWest] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //northeast tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
                             }
                             //East road inicializálása
                             if (j == (byte)TileDirections.East)
@@ -141,13 +146,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]])
-                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.West] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //east tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
                             }
                             //SouthEast road inicializálása
                             if (j == (byte)TileDirections.SouthEast)
@@ -162,13 +168,36 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1])
-                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.NorthWest] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //southeast tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                            }
+                            //SouthWest road inicializálása
+                            if (j == (byte)TileDirections.SouthWest)
+                            {
+                                newRoad.PositionParameters = new float[3] { currentTileAttributes.PositionParameters[0] - 1.016f/2,
+                             currentTileAttributes.PositionParameters[1]-.88f,
+                            currentTileAttributes.PositionParameters[2]};
+                                newRoad.RotationParameters = new float[3] { 0, 0, -30 };
+                                Vector3 pos = new Vector3(newRoad.PositionParameters[0] ,
+                                    newRoad.PositionParameters[1] ,
+                                    newRoad.PositionParameters[2]);
+                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+
+                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
+                                go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
+                                go.GetComponent<RoadController>().SetUp();
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //southwest tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
                             }
                         }
                         //páratlan indexű tile kezelése
@@ -186,13 +215,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
                                 //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]])
-                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.East] = newRoad;
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
                             }
                             //NorthWest road inicializálása
                             if (j == (byte)TileDirections.NorthWest)
@@ -207,13 +237,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1])
-                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.SouthEast] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //northwest tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] -1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
                             }
                             //NorthEast road inicializálása
                             if (j == (byte)TileDirections.NorthEast)
@@ -228,13 +259,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1])
-                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.SouthWest] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //northeast tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
                             }
                             //East road inicializálása
                             if (j == (byte)TileDirections.East)
@@ -249,13 +281,14 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]])
-                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.West] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //east tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
                             }
                             //SouthEast road inicializálása
                             if (j == (byte)TileDirections.SouthEast)
@@ -270,15 +303,38 @@ namespace Nagand
                                 GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
-                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
-                                currentTileAttributes.SorroundingRoads[j] = newRoad;
-                                //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ])
-                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.SorroundingRoads[(int)TileDirections.NorthWest] = newRoad;
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //southeast tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
                             }
-                        }
+                            //SouthWest road inicializálása
+                            if (j == (byte)TileDirections.SouthWest)
+                            {
+                                newRoad.PositionParameters = new float[3] { currentTileAttributes.PositionParameters[0] - 1.016f/2,
+                             currentTileAttributes.PositionParameters[1]-.88f,
+                            currentTileAttributes.PositionParameters[2]};
+                                newRoad.RotationParameters = new float[3] { 0, 0, -30 };
+                                Vector3 pos = new Vector3(newRoad.PositionParameters[0],
+                                    newRoad.PositionParameters[1],
+                                    newRoad.PositionParameters[2]);
+                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+
+                                newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
+                                newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
+                                go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
+                                go.GetComponent<RoadController>().SetUp();
+                                currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
+                                Debug.Log(newRoad);
+                                //southwest tile-ba belerakni roadot
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] == 0)
+                                    TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                            }
+                        }                        
                     }
                 }
             }
@@ -945,6 +1001,7 @@ namespace Nagand
             newTile.PositionParameters = new float[] { TilePositions[x, y].x, TilePositions[x, y].y, TilePositions[x, y].z };
             newTile.RotationParameters = new float[] { 0, 0, 0 };
             newTile.TileType = (int)TypeOfTile.Field;
+            
 
             TilesOnBoard[x, y] = Instantiate(StartingTile, TilePositions[x, y], Quaternion.identity);
             TilesOnBoard[x, y].GetComponent<TileContainer>().AttributesOfTheTile = newTile;

@@ -17,7 +17,7 @@ namespace Nagand
             transform.Rotate(AttributesOfTheRoad.RotationParameters[0], 
                 AttributesOfTheRoad.RotationParameters[1], 
                 AttributesOfTheRoad.RotationParameters[2]);
-            //Debug.Log(AttributesOfTheRoad.IDNumberForTriangles);
+            gameObject.name = "Road" + AttributesOfTheRoad.IDNumberForRoad;
         }
     }
 }
