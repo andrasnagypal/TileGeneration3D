@@ -66,7 +66,7 @@ namespace Nagand
                         newRoad.IDNumberForTriangles = new int[2] { 0, 0 };
                         newRoad.IDNumberForRoad = IDCounterForRoads++;
                         //páros indexű tilek kezelése
-                        if (i % 2 == 0)
+                        if (currentTileAttributes.IndexX % 2 == 0)
                         {    //West road inicializálása
                             if (j == (byte)TileDirections.West)
                             {
@@ -86,7 +86,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] ==0)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] <0)
                                     TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
                             }
                             //NorthWest road inicializálása
@@ -108,7 +108,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //northwest tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
                             }
                             //NorthEast road inicializálása
@@ -130,7 +130,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //northeast tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
                             }
                             //East road inicializálása
@@ -152,7 +152,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //east tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
                             }
                             //SouthEast road inicializálása
@@ -174,7 +174,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //southeast tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
                             }
                             //SouthWest road inicializálása
@@ -196,7 +196,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //southwest tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
                             }
                         }
@@ -221,7 +221,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //west tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
                             }
                             //NorthWest road inicializálása
@@ -243,7 +243,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //northwest tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] -1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
                             }
                             //NorthEast road inicializálása
@@ -265,7 +265,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //northeast tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
                             }
                             //East road inicializálása
@@ -287,7 +287,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //east tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
                             }
                             //SouthEast road inicializálása
@@ -309,7 +309,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //southeast tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
                             }
                             //SouthWest road inicializálása
@@ -331,7 +331,7 @@ namespace Nagand
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
                                 Debug.Log(newRoad);
                                 //southwest tile-ba belerakni roadot
-                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] == 0)
+                                if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
                             }
                         }                        
