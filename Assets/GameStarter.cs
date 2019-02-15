@@ -34,7 +34,8 @@ namespace Nagand
         List<ROAD> RoadsOfTheGame = new List<ROAD>();
         List<PLAINTRIANGLE> PlainTrianglesAtTheBeginning = new List<PLAINTRIANGLE>();
         List<GameObject> ListOfSettlementPlaces = new List<GameObject>();
-        List<GameObject> LostOfRoads = new List<GameObject>();
+        List<GameObject> ListOfRoads = new List<GameObject>();
+        GameObject go;
 
         void Start()
         {
@@ -50,6 +51,18 @@ namespace Nagand
             DestroyVector3s();
             PutDownSettlementTriangles();
             PutDownRoads();
+            CalcHCost();
+        }
+
+        private void CalcHCost()
+        {
+            int rnd = UnityEngine.Random.Range(0, ListOfSettlementPlaces.Count);
+           Debug.Log( ListOfSettlementPlaces[rnd].gameObject.name);
+            for (int i = 0; i < ListOfSettlementPlaces.Count; i++)
+            {
+                float distance = Vector3.Distance(ListOfSettlementPlaces[rnd].transform.position, ListOfSettlementPlaces[i].transform.position);
+                Debug.Log(i+". distance: "+distance);
+            }
         }
 
         private void PutDownRoads()
@@ -77,14 +90,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] - 1.016f,
                                     currentTileAttributes.PositionParameters[1],
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                              
                                 //west tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] <0)
                                     TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
@@ -99,14 +112,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] - 1.016f / 2,
                                     currentTileAttributes.PositionParameters[1],
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                               
                                 //northwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
@@ -121,14 +134,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] + 1.016f / 2,
                                     currentTileAttributes.PositionParameters[1] + .88f,
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                               
                                 //northeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
@@ -143,14 +156,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] + 1.016f ,
                                     currentTileAttributes.PositionParameters[1],
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                              
                                 //east tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
@@ -165,14 +178,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] + 1.016f / 2,
                                     currentTileAttributes.PositionParameters[1] - .88f,
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                               
                                 //southeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
@@ -187,14 +200,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(newRoad.PositionParameters[0] ,
                                     newRoad.PositionParameters[1] ,
                                     newRoad.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                               go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                                
                                 //southwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
@@ -212,14 +225,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] - 1.016f,
                                     currentTileAttributes.PositionParameters[1],
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                              
                                 //west tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
@@ -234,14 +247,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] - 1.016f / 2,
                                     currentTileAttributes.PositionParameters[1],
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                               
                                 //northwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] -1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
@@ -256,14 +269,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] + 1.016f / 2,
                                     currentTileAttributes.PositionParameters[1] + .88f,
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                               
                                 //northeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
@@ -278,14 +291,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] + 1.016f,
                                     currentTileAttributes.PositionParameters[1],
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                               
                                 //east tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
@@ -300,14 +313,14 @@ namespace Nagand
                                 Vector3 pos = new Vector3(currentTileAttributes.PositionParameters[0] + 1.016f / 2,
                                     currentTileAttributes.PositionParameters[1] - .88f,
                                     currentTileAttributes.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                                
                                 //southeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
@@ -322,22 +335,24 @@ namespace Nagand
                                 Vector3 pos = new Vector3(newRoad.PositionParameters[0],
                                     newRoad.PositionParameters[1],
                                     newRoad.PositionParameters[2]);
-                                GameObject go = Instantiate(StartingRoad, pos, Quaternion.identity);
+                                go = Instantiate(StartingRoad, pos, Quaternion.identity);
 
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                Debug.Log(newRoad);
+                                
                                 //southwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
                             }
-                        }                        
+                        }
+                        ListOfRoads.Add(go);
                     }
                 }
             }
+            GiveRoadsToRoadsContainer();
         }
 
         void PutDownSettlementTriangles()
@@ -394,13 +409,11 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                
-                                ListOfSettlementPlaces.Add(go);
-                                go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);           
+                               go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
                             //NorthWest "jelű" triangle kezelése
@@ -439,11 +452,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                              
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -483,11 +495,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -527,11 +538,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -571,11 +581,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                              
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -615,11 +624,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -663,11 +671,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -707,11 +714,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -751,11 +757,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                               
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -795,11 +800,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -839,11 +843,10 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 0 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
@@ -883,15 +886,15 @@ namespace Nagand
                                 //forgás beállítása
                                 newTriangle.RotationParameters = new float[3] { 0, 0, 180 };
                                 PlainTrianglesAtTheBeginning.Add(newTriangle);
-                                GameObject go = Instantiate(SettlementTriangle, new Vector3(
+                                go = Instantiate(SettlementTriangle, new Vector3(
                                     newTriangle.PositionParameters[0],
                                     newTriangle.PositionParameters[1],
-                                    newTriangle.PositionParameters[2]), Quaternion.identity);
-                                ListOfSettlementPlaces.Add(go);
+                                    newTriangle.PositionParameters[2]), Quaternion.identity);                                
                                 go.GetComponent<TriangleController>().AttributesOfTheTriangle = newTriangle;
                                 go.GetComponent<TriangleController>().SetUp();
                             }
                         }
+                        ListOfSettlementPlaces.Add(go);
                     }
 
 
@@ -909,6 +912,16 @@ namespace Nagand
                 ListOfSettlementPlaces[i].transform.parent = ParentObjectForTriangles.transform;
                 gameObject.GetComponent<TrianglesContainer>().PlainTriangles[i] = PlainTrianglesAtTheBeginning[i];
                 gameObject.GetComponent<TrianglesContainer>().Settlements[i] = ListOfSettlementPlaces[i];
+            }
+        }
+        private void GiveRoadsToRoadsContainer()
+        {
+            gameObject.GetComponent<RoadsContainer>().RoadsOfTheGame = new ROAD[RoadsOfTheGame.Count];
+            gameObject.GetComponent<RoadsContainer>().RoadGameObjects = new GameObject[ListOfRoads.Count];
+            for (int i = 0; i < RoadsOfTheGame.Count; i++)
+            {               
+                gameObject.GetComponent<RoadsContainer>().RoadsOfTheGame[i] = RoadsOfTheGame[i];
+                gameObject.GetComponent<RoadsContainer>().RoadGameObjects[i] = ListOfRoads[i];
             }
         }
 
