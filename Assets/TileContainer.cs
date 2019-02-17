@@ -56,7 +56,23 @@ namespace Nagand
         public bool IsHabitable;
         public byte[] TypeOfTilesForSettlement;//enumja a field típusának
     }
-
+    public struct AStarNode
+    {
+        //Cost of road
+        public float GCost;
+        //Cost of distance
+        public float HCost;
+        //szomszéd node-ok
+        public int[] IDNumberForPossiblePaths;       
+        
+    }
+    public struct AStarPath
+    {
+        //GCost+HCost
+        public float FCost;
+        //a path idje
+        public int IDNumberOfNode;
+    }
 
     public class TileContainer : MonoBehaviour
     {

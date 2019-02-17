@@ -26,6 +26,7 @@ namespace Nagand
         int TileCounterForSpawning = 0;
         public GameObject ParentObjectForTiles;
         public GameObject ParentObjectForTriangles;
+        public GameObject ParentObjectForRoads;
         TILE newTile;
         int rndx, rndy;
         int IDCounterForTriangles = 1;
@@ -97,7 +98,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                              
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //west tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] <0)
                                     TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
@@ -119,7 +121,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                               
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //northwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
@@ -141,7 +144,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                               
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //northeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
@@ -163,7 +167,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                              
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //east tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
@@ -185,7 +190,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                               
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //southeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]-1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
@@ -207,7 +213,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //southwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] - 1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
@@ -232,7 +239,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                              
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //west tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.East] = newRoad.IDNumberForRoad;
@@ -254,7 +262,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                               
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //northwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] -1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthEast] = newRoad.IDNumberForRoad;
@@ -276,7 +285,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                               
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //northeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] + 1]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]+1].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.SouthWest] = newRoad.IDNumberForRoad;
@@ -298,7 +308,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                               
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //east tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 2, TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.West] = newRoad.IDNumberForRoad;
@@ -320,7 +331,8 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //southeast tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] + 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
@@ -342,13 +354,15 @@ namespace Nagand
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
-                                
+                                ListOfRoads.Add(go);
+                                RoadsOfTheGame.Add(newRoad);
                                 //southwest tile-ba belerakni roadot
                                 if (TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1]]&&TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] < 0)
                                     TilesOnBoard[TilesSpawned[i][0] - 1, TilesSpawned[i][1] ].GetComponent<TileContainer>().AttributesOfTheTile.IDForSorroundingRoads[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
                             }
                         }
-                        ListOfRoads.Add(go);
+                        go.transform.parent = ParentObjectForRoads.transform;
+                        
                     }
                 }
             }
