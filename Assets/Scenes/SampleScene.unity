@@ -466,5 +466,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e82afa31f3a95a54fb7a47827967c13f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ParentObjectOfSettlements: {fileID: 550496020}
-  ParentObjectOfRoads: {fileID: 8645475}

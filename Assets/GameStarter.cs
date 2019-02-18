@@ -52,6 +52,7 @@ namespace Nagand
             DestroyVector3s();
             PutDownSettlementTriangles();
             PutDownRoads();
+            FindObjectOfType<AStarCalculator>().AStarCalc();
             
         }
 
@@ -87,19 +88,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                                
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if(item.RoadsToTheSettlement[(int)TileDirections.NorthEast]==0)
+                                //        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                                
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -124,19 +127,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                                
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                                
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -161,19 +166,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle== newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle== newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthEast] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}
                                 
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
@@ -199,19 +206,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthEast] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}
                                 
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
@@ -237,19 +246,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                                
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                                
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -274,19 +285,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthEast] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}
                                
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
@@ -315,19 +328,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                                
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthEast] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                                
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -352,19 +367,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.West];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                                
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                                
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -389,19 +406,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthWest];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                               
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthEast] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                               
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -426,19 +445,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.NorthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                               
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthEast] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                               
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -463,19 +484,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.East];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                                
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthWest] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthWest] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                                
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
@@ -500,19 +523,21 @@ namespace Nagand
                                 newRoad.IDNumberForTriangles[0] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthEast];
                                 newRoad.IDNumberForTriangles[1] = currentTileAttributes.IDNumberOfSorroundingSettlements[(int)TileDirections.SouthWest];
                                 //Road orientation for settlements
-                                foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
-                                {
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
-                                    {
-                                        item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
-                                        break;
-                                    }
-                                }                               
+                                //foreach (PLAINTRIANGLE item in PlainTrianglesAtTheBeginning)
+                                //{
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[0])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.West] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.West] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //    if (item.IDNumberForTriangle == newRoad.IDNumberForTriangles[1])
+                                //    {
+                                //        if (item.RoadsToTheSettlement[(int)TileDirections.NorthEast] == 0)
+                                //            item.RoadsToTheSettlement[(int)TileDirections.NorthEast] = newRoad.IDNumberForRoad;
+                                //        break;
+                                //    }
+                                //}                               
                                 go.GetComponent<RoadController>().AttributesOfTheRoad = newRoad;
                                 go.GetComponent<RoadController>().SetUp();
                                 currentTileAttributes.IDForSorroundingRoads[j] = newRoad.IDNumberForRoad;
