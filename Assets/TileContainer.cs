@@ -55,6 +55,7 @@ namespace Nagand
         public float[] RotationParameters;
         public bool IsHabitable;
         public byte[] TypeOfTilesForSettlement;//enumja a field típusának
+        public int[] RoadsToTheSettlement;
     }
     public struct AStarNode
     {

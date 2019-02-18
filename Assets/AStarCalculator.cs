@@ -34,6 +34,7 @@ namespace Nagand
                 NodesToCalculcate = new AStarNode[RoadForAStar.Length + TrianglesForAStar.Length];
                 MakingNodes();
                 Debug.Log("The road " + RoadForAStar[rnd].IDNumberForRoad + " has these settlements: " + RoadForAStar[rnd].IDNumberForTriangles[0] + " + " + RoadForAStar[rnd].IDNumberForTriangles[1]);
+                Debug.Log("Nodes: " + NodesToCalculcate.Length);
             }
         }
 
@@ -51,11 +52,21 @@ namespace Nagand
                 newNode.GCost = RoadForAStar[i].LevelOfTheRoad;
                 newNode.HCost = 0;
                 NodesToCalculcate[i]=newNode;
+                Debug.Log(newNode);
             }
-            for (int i = RoadForAStar.Length; i < RoadForAStar.Length+ TrianglesForAStar.Length; i++)
-            {
-
-            }
+            //for (int i = RoadForAStar.Length; i < RoadForAStar.Length+ TrianglesForAStar.Length; i++)
+            //{
+            //    AStarNode newNode;
+            //    newNode.IDNumberForPossiblePaths = new int[3]
+            //    {
+            //        TrianglesForAStar[IDNumberForTriangles[i- RoadForAStar.Length]].RoadsToTheSettlement [0],
+            //        TrianglesForAStar[IDNumberForTriangles[i- RoadForAStar.Length]].RoadsToTheSettlement [1],
+            //        TrianglesForAStar[IDNumberForTriangles[i- RoadForAStar.Length]].RoadsToTheSettlement [2]
+            //    };
+            //    newNode.GCost = 6;
+            //    newNode.HCost = 0;
+            //    NodesToCalculcate[i] = newNode;
+            //}
         }
     }
 }
