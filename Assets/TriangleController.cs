@@ -20,5 +20,9 @@ namespace Nagand
                     AttributesOfTheTriangle.RotationParameters[(int)RotationNames.RotZ]));
             gameObject.name = "TRIANGLE" + AttributesOfTheTriangle.IDNumberForTriangle;
         }
+        public void TurnToColor()
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+        }
     }
 }

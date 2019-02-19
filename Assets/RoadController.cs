@@ -19,5 +19,10 @@ namespace Nagand
                 AttributesOfTheRoad.RotationParameters[2]);
             gameObject.name = "Road" + AttributesOfTheRoad.IDNumberForRoad;
         }
+
+        public void TurnToColor()
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+        }
     }
 }

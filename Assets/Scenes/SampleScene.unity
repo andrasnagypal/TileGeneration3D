@@ -409,7 +409,7 @@ MonoBehaviour:
   MaxY: 100
   LeapAmountX: 1.015
   LeapAmountY: 3.52
-  HowManyTilesToGenerate: 100
+  HowManyTilesToGenerate: 10
   BorderValue: 8
   ParentObjectForTiles: {fileID: 135844594}
   ParentObjectForTriangles: {fileID: 550496020}
@@ -466,3 +466,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e82afa31f3a95a54fb7a47827967c13f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParentOfRoads: {fileID: 8645475}
+  ParentOfTriangles: {fileID: 550496020}

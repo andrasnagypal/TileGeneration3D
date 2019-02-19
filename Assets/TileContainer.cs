@@ -59,6 +59,7 @@ namespace Nagand
     }
     public struct AStarNode
     {
+        public int IDNumberOfNode;
         //Cost of road
         public float GCost;
         //Cost of distance
