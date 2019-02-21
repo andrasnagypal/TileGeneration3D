@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Nagand
 {
-    public class RoadController : MonoBehaviour
+    public class RoadController : MonoBehaviour, ShowPath
     {
         public ROAD AttributesOfTheRoad;
 

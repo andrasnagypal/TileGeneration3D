@@ -29,7 +29,7 @@ namespace Nagand
         public GameObject ParentObjectForRoads;
         TILE newTile;
         int rndx, rndy;
-        int IDCounterForGameObjects= 1;
+        int IDCounterForGameObjects= 0;
         
         List<int[]> TilesSpawned = new List<int[]>();
         List<ROAD> RoadsOfTheGame = new List<ROAD>();
@@ -52,7 +52,7 @@ namespace Nagand
             DestroyVector3s();
             PutDownSettlementTriangles();
             PutDownRoads();
-            FindObjectOfType<AStarCalculator>().AStarCalc();
+            //FindObjectOfType<AStarCalculator>().AStarCalc();
             
         }
 
@@ -69,7 +69,7 @@ namespace Nagand
                     {
                         ROAD newRoad;
                         newRoad.LevelOfTheRoad = 6;
-                        newRoad.IDNumberForTriangles = new int[2] { 0, 0 };
+                        newRoad.IDNumberForTriangles = new int[2] { -1, -1 };
                         newRoad.IDNumberForRoad = IDCounterForGameObjects++;
                         //páros indexű tilek kezelése
                         if (currentTileAttributes.IndexX % 2 == 0)
@@ -391,7 +391,7 @@ namespace Nagand
                         TilesOnBoard[TilesSpawned[i][0], TilesSpawned[i][1]].GetComponent<TileContainer>().AttributesOfTheTile.IDNumberOfSorroundingSettlements[j] = newTriangle.IDNumberForTriangle;
                         newTriangle.TypeOfTilesForSettlement = new byte[3] { 255, 255, 255 };
                         newTriangle.TypeOfTilesForSettlement[0] = (byte)currentTileAttributes.TileType;
-                        newTriangle.RoadsToTheSettlement = new int[3] { 0, 0, 0 };
+                        newTriangle.RoadsToTheSettlement = new int[3] { -1,-1,-1 };
                         //ha páros sorú tile akkor ez az ág
                         if (currentTileAttributes.IndexX % 2 == 0)
                         {

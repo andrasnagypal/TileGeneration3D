@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Nagand
 {
-    public class TriangleController : MonoBehaviour
+    public class TriangleController : MonoBehaviour, ShowPath
     {
         public PLAINTRIANGLE AttributesOfTheTriangle;
 

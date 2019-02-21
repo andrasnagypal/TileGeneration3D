@@ -19,11 +19,19 @@ namespace Nagand
         AStarNode[] NodesToCalculcate;
         List<AStarPath> PathToWalk = new List<AStarPath>();
         List<AStarNode> PathsForChecking = new List<AStarNode>();
+        List<int> IDForPathNodes = new List<int>();
         int PointA, PointB;
 
         bool IsAvailableForCalc = true;
 
-        
+
+        void Start()
+        {
+            AStarCalc();
+
+        }
+
+       
 
         public void AStarCalc()
         {
@@ -36,10 +44,133 @@ namespace Nagand
                 rnd = UnityEngine.Random.Range(0, RoadForAStar.Length);
                 NodesToCalculcate = new AStarNode[RoadForAStar.Length + TrianglesForAStar.Length];
                
-                CreatingNodes();                
-                //HCostCalc();
-                
+                CreatingNodes();      
+                PointA= UnityEngine.Random.Range(0, NodesToCalculcate.Length);
+                PointB = UnityEngine.Random.Range(0, NodesToCalculcate.Length);
+                HCostCalc();
+                StartPath();
+                ShowPath();
 
+            }
+        }
+
+        private void ShowPath()
+        {
+            for (int i = 0; i < PathToWalk.Count; i++)
+            {
+                if (PathToWalk[i].IDNumberOfNode < TrianglesForAStar.Length)
+                    foreach (TriangleController item in ParentOfTriangles.GetComponentsInChildren<TriangleController>())
+                    {
+                        if (item.AttributesOfTheTriangle.IDNumberForTriangle == PathToWalk[i].IDNumberOfNode)
+                        {
+                            item.TurnToColor();
+                            break;
+                        }
+                    }
+                else
+                    foreach (RoadController item in ParentOfRoads.GetComponentsInChildren<RoadController>())
+                    {
+                        if (item.AttributesOfTheRoad.IDNumberForRoad == PathToWalk[i].IDNumberOfNode)
+                        {
+                            item.TurnToColor();
+                            break;
+                        }
+                    }
+            }
+        }
+
+        private void StartPath()
+        {
+           
+            AStarPath PathToWalkOn = new AStarPath
+            {
+                FCost = NodesToCalculcate[PointA].GCost + NodesToCalculcate[PointA].HCost,
+                IDNumberOfNode = NodesToCalculcate[PointA].IDNumberOfNode
+           };
+            Debug.Log("Point A " + NodesToCalculcate[PointA].IDNumberOfNode);
+            Debug.Log("Point B " + NodesToCalculcate[PointB].IDNumberOfNode);
+            if (PointA<TrianglesForAStar.Length)
+            foreach (TriangleController item in ParentOfTriangles.GetComponentsInChildren<TriangleController>())
+            {
+                    if (item.AttributesOfTheTriangle .IDNumberForTriangle==PointA)
+                    {
+                        item.TurnToColor();
+                        break;
+                    }
+            }
+            else
+                foreach (RoadController item in ParentOfRoads.GetComponentsInChildren<RoadController>())
+                {
+                    if (item.AttributesOfTheRoad.IDNumberForRoad == PointA)
+                    {
+                        item.TurnToColor();
+                        break;
+                    }
+                }
+            if (PointB < TrianglesForAStar.Length)
+                foreach (TriangleController item in ParentOfTriangles.GetComponentsInChildren<TriangleController>())
+                {
+                    if (item.AttributesOfTheTriangle.IDNumberForTriangle == PointB)
+                    {
+                        item.TurnToColor();
+                        break;
+                    }
+                }
+            else
+                foreach (RoadController item in ParentOfRoads.GetComponentsInChildren<RoadController>())
+                {
+                    if (item.AttributesOfTheRoad.IDNumberForRoad == PointB)
+                    {
+                        item.TurnToColor();
+                        break;
+                    }
+                }
+            float CurrentPathGCost = NodesToCalculcate[PointA].GCost;
+            int IndexOFLowestCostNode;
+            PathToWalk.Clear();
+            PathToWalk.Add(PathToWalkOn);
+            PathsForChecking.Clear();
+            for (int i = 0; i < NodesToCalculcate[PointA].IDNumberForPossiblePaths.Length; i++)
+            {
+                PathsForChecking.Add(NodesToCalculcate[NodesToCalculcate[PointA].IDNumberForPossiblePaths[i]]);
+            }
+            bool IsFinished = NodesToCalculcate[PointA].HCost != 0 ? true : false;
+            //PathToWalk[PathToWalk.Count - 1].IDNumberOfNode != NodesToCalculcate[PointB].IDNumberOfNode
+            while (IsFinished)
+            {
+                IndexOFLowestCostNode = PathsForChecking[0].IDNumberOfNode;
+                for (int i =1; i < PathsForChecking.Count; i++)
+                {
+                    
+                    
+                    if (NodesToCalculcate[IndexOFLowestCostNode].HCost+ NodesToCalculcate[IndexOFLowestCostNode].GCost + CurrentPathGCost
+                        > PathsForChecking[i].HCost + PathsForChecking[i].GCost + CurrentPathGCost)
+                    {
+                        IndexOFLowestCostNode = PathsForChecking[i].IDNumberOfNode;
+                    }
+                }
+                CurrentPathGCost += NodesToCalculcate[IndexOFLowestCostNode].GCost;
+                IsFinished = NodesToCalculcate[IndexOFLowestCostNode].HCost != 0 ? true : false;
+                PathsForChecking.Clear();
+                PathToWalkOn = new AStarPath
+                {
+                    FCost = NodesToCalculcate[IndexOFLowestCostNode].GCost + NodesToCalculcate[PointA].HCost,
+                    IDNumberOfNode = NodesToCalculcate[IndexOFLowestCostNode].IDNumberOfNode
+                };
+                PathToWalk.Add(PathToWalkOn);
+                for (int i = 0; i < NodesToCalculcate[PathToWalkOn.IDNumberOfNode].IDNumberForPossiblePaths.Length; i++)
+                {
+                    //Debug.Log("Path to Walkon id: " + PathToWalkOn.IDNumberOfNode);
+                    //Debug.Log("Path to Walkon id node: " + NodesToCalculcate[PathToWalkOn.IDNumberOfNode]);
+                    //Debug.Log("Path to Walkon id node id: " + NodesToCalculcate[PathToWalkOn.IDNumberOfNode].IDNumberForPossiblePaths[i]);
+                    PathsForChecking.Add(NodesToCalculcate[NodesToCalculcate[PathToWalkOn.IDNumberOfNode].IDNumberForPossiblePaths[i]]);
+                }
+                Debug.Log("Iteration " + (PathToWalk.Count - 1) + ":");
+                for (int i = 0; i < PathToWalk.Count; i++)
+                {
+                    
+                    Debug.Log("Path pos "+i+" " + PathToWalk[i].IDNumberOfNode);
+                }
             }
         }
 
@@ -70,43 +201,48 @@ namespace Nagand
             //Trianglek roadokhoz való hozzácsatolása
             for ( i = NodesToCalculcate.Length-1; TrianglesForAStar.Length-1 < i; i--)
             {
-                for (int j = 0; j < NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]-1].IDNumberForPossiblePaths.Length; j++)
+                for (int j = 0; j < NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]].IDNumberForPossiblePaths.Length; j++)
                 {
-                    if (NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]-1].IDNumberForPossiblePaths[j]==0)
+                    if (NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]].IDNumberForPossiblePaths[j]==0)
                     {
-                        NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]-1].IDNumberForPossiblePaths[j] = NodesToCalculcate[i].IDNumberOfNode;
+                        NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]].IDNumberForPossiblePaths[j] = NodesToCalculcate[i].IDNumberOfNode;
                         break;
                     }
                 }
-                for (int j = 0; j < NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]-1].IDNumberForPossiblePaths.Length; j++)
+                for (int j = 0; j < NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[0]].IDNumberForPossiblePaths.Length; j++)
                 {
-                    if (NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[1]-1].IDNumberForPossiblePaths[j] == 0)
+                    if (NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[1]].IDNumberForPossiblePaths[j] == 0)
                     {
-                        NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[1]-1].IDNumberForPossiblePaths[j] = NodesToCalculcate[i].IDNumberOfNode;
+                        NodesToCalculcate[NodesToCalculcate[i].IDNumberForPossiblePaths[1]].IDNumberForPossiblePaths[j] = NodesToCalculcate[i].IDNumberOfNode;
                         break;
                     }
                 }
             }
-            for ( i = 0; i < NodesToCalculcate.Length; i++)
-            {
-                Debug.Log("ID number: " + NodesToCalculcate[i].IDNumberOfNode);
-                for (int j = 0; j < NodesToCalculcate[i].IDNumberForPossiblePaths.Length; j++)
-                {
-                    Debug.Log("Possible path " + (j + 1) + ": " + NodesToCalculcate[i].IDNumberForPossiblePaths[j]);
-                }
-            }
+            //for (i = 0; i < NodesToCalculcate.Length; i++)
+            //{
+            //    Debug.Log("ID number: " + NodesToCalculcate[i].IDNumberOfNode);
+            //    for (int j = 0; j < NodesToCalculcate[i].IDNumberForPossiblePaths.Length; j++)
+            //    {
+            //        Debug.Log("Possible path " + (j + 1) + ": " + NodesToCalculcate[i].IDNumberForPossiblePaths[j]);
+            //    }
+            //}
         }        
 
         private void HCostCalc()
         {
+            Vector3 PointBpos = new Vector3(
+                PointB< TrianglesForAStar.Length? TrianglesForAStar[PointB].PositionParameters[0]: RoadForAStar[PointB- TrianglesForAStar.Length].PositionParameters[0],
+                PointB < TrianglesForAStar.Length ? TrianglesForAStar[PointB].PositionParameters[1] : RoadForAStar[PointB - TrianglesForAStar.Length].PositionParameters[1],
+                PointB < TrianglesForAStar.Length ? TrianglesForAStar[PointB].PositionParameters[2] : RoadForAStar[PointB - TrianglesForAStar.Length].PositionParameters[2]
+                );
             for (int i = 0; i < NodesToCalculcate.Length; i++)
             {
                 Vector3 temppos = Vector3.down;
-                if (IDNumberForTriangles.Contains(i + 1))
+                if (i< TrianglesForAStar.Length)
                 {
                     for (int j = 0; j < TrianglesForAStar.Length; j++)
                     {
-                        if (TrianglesForAStar[j].IDNumberForTriangle == i + 1)
+                        if (TrianglesForAStar[j].IDNumberForTriangle == i )
                         {
                             temppos = new Vector3(
                                TrianglesForAStar[j].PositionParameters[0],
@@ -130,13 +266,9 @@ namespace Nagand
                         }
                     }
                 }
-                NodesToCalculcate[i].HCost = Vector3.Distance(
-                    new Vector3(
-                        RoadForAStar[PointB].PositionParameters[0],
-                        RoadForAStar[PointB].PositionParameters[1],
-                        RoadForAStar[PointB].PositionParameters[2]),
-                    temppos) * 6;
-                Debug.Log("Index of " + i + " HCost is " + NodesToCalculcate[i].HCost);
+
+                NodesToCalculcate[i].HCost = Vector3.Distance(PointBpos, temppos) * 6;
+               
             }
         }
 

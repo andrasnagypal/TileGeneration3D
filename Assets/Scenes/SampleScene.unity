@@ -409,7 +409,7 @@ MonoBehaviour:
   MaxY: 100
   LeapAmountX: 1.015
   LeapAmountY: 3.52
-  HowManyTilesToGenerate: 10
+  HowManyTilesToGenerate: 200
   BorderValue: 8
   ParentObjectForTiles: {fileID: 135844594}
   ParentObjectForTriangles: {fileID: 550496020}
