@@ -52,8 +52,10 @@ namespace Nagand
             DestroyVector3s();
             PutDownSettlementTriangles();
             PutDownRoads();
-            //FindObjectOfType<AStarCalculator>().AStarCalc();
-            
+            PathColorManager.Instance.AddInterfaces(ListOfSettlementPlaces);
+            PathColorManager.Instance.AddInterfaces(ListOfRoads);
+
+
         }
 
        
@@ -1003,7 +1005,7 @@ namespace Nagand
 
         private void SetCamera()
         {
-            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -.8f);
+            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -20f);
         }
 
         void CreatePositions()

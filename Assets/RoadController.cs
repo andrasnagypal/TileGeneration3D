@@ -9,6 +9,8 @@ namespace Nagand
     {
         public ROAD AttributesOfTheRoad;
 
+        
+
         public void SetUp()
         {
             transform.position = new Vector3(AttributesOfTheRoad.PositionParameters[0],
@@ -23,6 +25,11 @@ namespace Nagand
         public void TurnToColor()
         {
             gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+        }
+        public void TurnBackToOriginalColor()
+        {
+            Debug.Log("RoadRecolor");
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
         }
     }
 }

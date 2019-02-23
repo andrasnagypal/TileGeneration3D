@@ -7,8 +7,8 @@ namespace Nagand
     public class TriangleController : MonoBehaviour, ShowPath
     {
         public PLAINTRIANGLE AttributesOfTheTriangle;
+        
 
-      
         public void SetUp()
         {
             transform.position = new Vector3(AttributesOfTheTriangle.PositionParameters[0],
@@ -23,6 +23,11 @@ namespace Nagand
         public void TurnToColor()
         {
             gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+        }
+        public void TurnBackToOriginalColor()
+        {
+            Debug.Log("TriangleRecolor");
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
         }
     }
 }

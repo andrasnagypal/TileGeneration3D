@@ -25,17 +25,20 @@ namespace Nagand
         bool IsAvailableForCalc = true;
 
 
-        void Start()
+        private void Update()
         {
-            AStarCalc();
-
+            if (IsAvailableForCalc&&Input.GetKeyDown(KeyCode.Space))
+            {
+                
+                AStarCalc();
+            }
         }
 
-       
+
 
         public void AStarCalc()
         {
-            if ( IsAvailableForCalc)
+           
             {
                 IsAvailableForCalc = !IsAvailableForCalc;
                 
@@ -49,35 +52,12 @@ namespace Nagand
                 PointB = UnityEngine.Random.Range(0, NodesToCalculcate.Length);
                 HCostCalc();
                 StartPath();
-                ShowPath();
-
+                
+                
             }
         }
 
-        private void ShowPath()
-        {
-            for (int i = 0; i < PathToWalk.Count; i++)
-            {
-                if (PathToWalk[i].IDNumberOfNode < TrianglesForAStar.Length)
-                    foreach (TriangleController item in ParentOfTriangles.GetComponentsInChildren<TriangleController>())
-                    {
-                        if (item.AttributesOfTheTriangle.IDNumberForTriangle == PathToWalk[i].IDNumberOfNode)
-                        {
-                            item.TurnToColor();
-                            break;
-                        }
-                    }
-                else
-                    foreach (RoadController item in ParentOfRoads.GetComponentsInChildren<RoadController>())
-                    {
-                        if (item.AttributesOfTheRoad.IDNumberForRoad == PathToWalk[i].IDNumberOfNode)
-                        {
-                            item.TurnToColor();
-                            break;
-                        }
-                    }
-            }
-        }
+       
 
         private void StartPath()
         {
@@ -88,45 +68,10 @@ namespace Nagand
                 IDNumberOfNode = NodesToCalculcate[PointA].IDNumberOfNode
            };
             Debug.Log("Point A " + NodesToCalculcate[PointA].IDNumberOfNode);
-            Debug.Log("Point B " + NodesToCalculcate[PointB].IDNumberOfNode);
-            if (PointA<TrianglesForAStar.Length)
-            foreach (TriangleController item in ParentOfTriangles.GetComponentsInChildren<TriangleController>())
-            {
-                    if (item.AttributesOfTheTriangle .IDNumberForTriangle==PointA)
-                    {
-                        item.TurnToColor();
-                        break;
-                    }
-            }
-            else
-                foreach (RoadController item in ParentOfRoads.GetComponentsInChildren<RoadController>())
-                {
-                    if (item.AttributesOfTheRoad.IDNumberForRoad == PointA)
-                    {
-                        item.TurnToColor();
-                        break;
-                    }
-                }
-            if (PointB < TrianglesForAStar.Length)
-                foreach (TriangleController item in ParentOfTriangles.GetComponentsInChildren<TriangleController>())
-                {
-                    if (item.AttributesOfTheTriangle.IDNumberForTriangle == PointB)
-                    {
-                        item.TurnToColor();
-                        break;
-                    }
-                }
-            else
-                foreach (RoadController item in ParentOfRoads.GetComponentsInChildren<RoadController>())
-                {
-                    if (item.AttributesOfTheRoad.IDNumberForRoad == PointB)
-                    {
-                        item.TurnToColor();
-                        break;
-                    }
-                }
+            Debug.Log("Point B " + NodesToCalculcate[PointB].IDNumberOfNode);          
             float CurrentPathGCost = NodesToCalculcate[PointA].GCost;
             int IndexOFLowestCostNode;
+            IDForPathNodes.Clear();
             PathToWalk.Clear();
             PathToWalk.Add(PathToWalkOn);
             PathsForChecking.Clear();
@@ -160,18 +105,17 @@ namespace Nagand
                 PathToWalk.Add(PathToWalkOn);
                 for (int i = 0; i < NodesToCalculcate[PathToWalkOn.IDNumberOfNode].IDNumberForPossiblePaths.Length; i++)
                 {
-                    //Debug.Log("Path to Walkon id: " + PathToWalkOn.IDNumberOfNode);
-                    //Debug.Log("Path to Walkon id node: " + NodesToCalculcate[PathToWalkOn.IDNumberOfNode]);
-                    //Debug.Log("Path to Walkon id node id: " + NodesToCalculcate[PathToWalkOn.IDNumberOfNode].IDNumberForPossiblePaths[i]);
-                    PathsForChecking.Add(NodesToCalculcate[NodesToCalculcate[PathToWalkOn.IDNumberOfNode].IDNumberForPossiblePaths[i]]);
-                }
-                Debug.Log("Iteration " + (PathToWalk.Count - 1) + ":");
-                for (int i = 0; i < PathToWalk.Count; i++)
-                {
                     
-                    Debug.Log("Path pos "+i+" " + PathToWalk[i].IDNumberOfNode);
-                }
+                    PathsForChecking.Add(NodesToCalculcate[NodesToCalculcate[PathToWalkOn.IDNumberOfNode].IDNumberForPossiblePaths[i]]);
+                }               
             }
+            for (int i = 0; i < PathToWalk.Count; i++)
+            {
+                IDForPathNodes.Add(PathToWalk[i].IDNumberOfNode);
+            }
+            Debug.Log(IDForPathNodes.Count);
+            StartCoroutine( PathColorManager.Instance.StartShowingPath(IDForPathNodes));
+            IsAvailableForCalc = !IsAvailableForCalc;
         }
 
         private void CreatingNodes()
