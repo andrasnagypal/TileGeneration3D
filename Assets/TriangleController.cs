@@ -29,5 +29,11 @@ namespace Nagand
             Debug.Log("TriangleRecolor");
             gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
         }
+        public int BeginAndEndPath()
+        {
+            
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            return AttributesOfTheTriangle.IDNumberForTriangle;
+        }
     }
 }

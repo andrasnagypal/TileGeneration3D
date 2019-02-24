@@ -19,7 +19,7 @@ namespace Nagand
             transform.Rotate(AttributesOfTheRoad.RotationParameters[0], 
                 AttributesOfTheRoad.RotationParameters[1], 
                 AttributesOfTheRoad.RotationParameters[2]);
-            gameObject.name = "Road" + AttributesOfTheRoad.IDNumberForRoad;
+            gameObject.name = "ROAD" + AttributesOfTheRoad.IDNumberForRoad;
         }
 
         public void TurnToColor()
@@ -28,8 +28,14 @@ namespace Nagand
         }
         public void TurnBackToOriginalColor()
         {
-            Debug.Log("RoadRecolor");
+           
             gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
+        }
+        public int BeginAndEndPath()
+        {
+            
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            return AttributesOfTheRoad.IDNumberForRoad;
         }
     }
 }

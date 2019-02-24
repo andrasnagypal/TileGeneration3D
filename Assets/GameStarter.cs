@@ -54,7 +54,7 @@ namespace Nagand
             PutDownRoads();
             PathColorManager.Instance.AddInterfaces(ListOfSettlementPlaces);
             PathColorManager.Instance.AddInterfaces(ListOfRoads);
-
+            GetComponent<AStarCalculator>().CreatingNodes();
 
         }
 

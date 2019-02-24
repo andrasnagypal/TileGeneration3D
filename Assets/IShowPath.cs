@@ -8,5 +8,6 @@ namespace Nagand
     {
         void TurnToColor();
         void TurnBackToOriginalColor();
+        int BeginAndEndPath();
     }
 }
