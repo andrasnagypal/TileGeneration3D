@@ -13,6 +13,7 @@ namespace Nagand
         Ray ray;
         int BeginPath=-1, EndPath=-1;
         bool IsPathLaid = false;
+        ShowPath Beginning, Ending;
 
         private void Update()
         {
@@ -25,19 +26,23 @@ namespace Nagand
             yield return null;
             if (Input.GetButtonDown("Fire1") && !IsPathLaid)
             {
-                Debug.Log("Valami");
+                
 
                 ray = MainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    Debug.Log("Valami2");
+                   
 
                     ShowPath onclicked = hit.collider.gameObject.GetComponent<ShowPath>();
                     if (onclicked != null)
                     {
-                        Debug.Log("Valami3");
+                        
+                        
+                       
+                        if (Beginning!=null)
+                            Beginning.TurnBackToOriginalColor();
+                            Beginning = onclicked;
                         BeginPath = onclicked.BeginAndEndPath();
-
                     }
 
                 }
@@ -45,17 +50,21 @@ namespace Nagand
             yield return null;
             if (Input.GetButtonDown("Fire2") && !IsPathLaid)
             {
-                Debug.Log("Valami");
+                
 
                 ray = MainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    Debug.Log("Valami2");
+                    
 
                     ShowPath onclicked = hit.collider.gameObject.GetComponent<ShowPath>();
                     if (onclicked != null)
                     {
-                        Debug.Log("Valami3");
+                       
+                                               
+                            if (Ending!=null)
+                            Ending.TurnBackToOriginalColor();
+                            Ending = onclicked;
                         EndPath = onclicked.BeginAndEndPath();
 
                     }
