@@ -11,6 +11,7 @@ namespace Nagand
         public GameObject StartingTile;
         public GameObject SettlementTriangle;
         public GameObject StartingRoad;
+        public GameObject CubeToFollow;
         public int MaxX, MaxY;
         public Vector3[,] TilePositions;
         public GameObject[,] TilesOnBoard;
@@ -1005,7 +1006,7 @@ namespace Nagand
 
         private void SetCamera()
         {
-            Camera.main.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -20f);
+            CubeToFollow.transform.position = TilePositions[TilesSpawned[0][0], TilesSpawned[0][1]] + new Vector3(0, 1, -20f);
         }
 
         void CreatePositions()

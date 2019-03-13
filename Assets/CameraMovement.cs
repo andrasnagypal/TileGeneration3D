@@ -12,7 +12,10 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         CurrentPos = Camera.position;
-        if (Input.anyKey)
-        Camera.position = CurrentPos+ new Vector3(Input.GetAxisRaw("Horizontal")*Speed, Input.GetAxisRaw("Vertical")*Speed, 0);
+        if (Input.anyKey||Input.mouseScrollDelta.y!=0)
+        {
+            Camera.position = CurrentPos + new Vector3(Input.GetAxisRaw("Horizontal") * Speed*Time.deltaTime, Input.GetAxisRaw("Vertical") * Speed * Time.deltaTime, Camera.position.z < -10f|| Input.mouseScrollDelta.y <0? Input.mouseScrollDelta.y * Speed  * Time.deltaTime:0);
+            Debug.Log(Input.GetAxisRaw("Mouse ScrollWheel"));
+        }
     }
 }
